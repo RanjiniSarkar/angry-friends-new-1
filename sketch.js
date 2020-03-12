@@ -7,23 +7,24 @@ var engine, world;
 var box1, angryFace1,angryFace2;
 var bg_image,bg,platform;
 var naughtyFace, slingshot;
+var teacher=[] 
+var teacher_img;
 
 var gameState = "onSling";
 
 var score = 0;
 
 function preload() {
-    bg_image=loadImage("sprites/angry friends project bg.jpg");
+    bg_image=loadImage("sprites/angry friends project bg.png");
+    teacher_img=loadImage("sprites/teacher_burned_burned.png")
     
 }
 
 function setup(){
     var canvas = createCanvas(1200,400);
+   
     engine = Engine.create();
     world = engine.world;
-    
-
-
     ground = new Ground(600,height,1200,20);
     platform = new Box(150, 305, 300, 170);
 
@@ -46,17 +47,20 @@ function setup(){
 
  
     slingshot = new SlingShot(naughtyFace.body,{x:200, y:50});
+   
 }
 
 function draw(){
-    
+    if(random (1) < 0.005){
+        teacher.push(new Teacher())
+       }  
         background(bg_image);
     
         noStroke();
         textSize(35)
         fill("black")
         text("Score  " + score, width-300, 50)
-    
+  
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
@@ -80,7 +84,14 @@ function draw(){
     platform.display();
     
     slingshot.display();   
-    //console.log(naughtyFace.body.speed); 
+    //console.log(naughtyFace.body.speed);
+    
+     
+for( var t of teacher){
+    t.move();
+    t.show();
+  }
+  drawSprites();
 }
 
 function mouseDragged(){
@@ -106,3 +117,4 @@ function keyPressed(){
       
     }
 }
+
